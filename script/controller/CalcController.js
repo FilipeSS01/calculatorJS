@@ -7,6 +7,7 @@ class CalcController {
     this._currentDate;
 
     this.initialize();
+    this.initButtonEvent();
   }
 
   initialize() {
@@ -14,6 +15,15 @@ class CalcController {
     setInterval(() => {
       this.setDisplayDateTime();
     }, 1000);
+  }
+
+  initButtonEvent() {
+    let buttons = document.querySelectorAll("#buttons > g, #parts > g");
+    buttons.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        console.log(btn.className.baseVal.replace("btn-", ""));
+      });
+    });
   }
 
   setDisplayDateTime() {
