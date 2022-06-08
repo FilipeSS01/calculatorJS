@@ -130,21 +130,6 @@ class CalcController {
     return ["+", "-", "*", "%", "/"].indexOf(value) > -1;
   }
 
-  pushOperation(value) {
-    this._operation.push(value);
-    if (this._operation.length > 3) {
-      this.calc();
-    }
-  }
-
-  getLastOperation() {
-    return this._operation[this._operation.length - 1];
-  }
-
-  setLastOperation(value) {
-    this._operation[this._operation.length - 1] = value;
-  }
-
   calc() {
     let last = this._operation.pop();
     let result = eval(this._operation.join(" "));
@@ -174,6 +159,21 @@ class CalcController {
       }
     }
     this.displayCalc = lastNumber;
+  }
+
+  pushOperation(value) {
+    this._operation.push(value);
+    if (this._operation.length > 3) {
+      this.calc();
+    }
+  }
+
+  getLastOperation() {
+    return this._operation[this._operation.length - 1];
+  }
+
+  setLastOperation(value) {
+    this._operation[this._operation.length - 1] = value;
   }
 
   // ===============================================
