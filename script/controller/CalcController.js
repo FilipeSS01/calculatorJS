@@ -112,6 +112,7 @@ class CalcController {
         console.log("outra coisa");
       } else {
         this.pushOperation(value);
+        this.setLastNumberToDisplay();
       }
     } else {
       if (this.isOperator(value)) {
@@ -122,6 +123,7 @@ class CalcController {
         this.setLastNumberToDisplay();
       }
     }
+    console.log(this._operation);
   }
 
   isOperator(value) {
@@ -131,9 +133,7 @@ class CalcController {
   pushOperation(value) {
     this._operation.push(value);
     if (this._operation.length > 3) {
-      let last = this._operation.pop();
       this.calc();
-      console.log(this._operation);
     }
   }
 
@@ -149,6 +149,7 @@ class CalcController {
     let last = this._operation.pop();
     let result = eval(this._operation.join(" "));
     this._operation = [result, last];
+    this.setLastNumberToDisplay();
   }
 
   clearAll() {
@@ -163,7 +164,17 @@ class CalcController {
     this.displayCalc = "Error";
   }
 
-  setLastNumberToDisplay() {}
+  setLastNumberToDisplay() {
+    let lastNumber;
+    for (let i = this._operation.length - 1; i >= 0; i--) {
+      if (!this.isOperator(this._operation[i])) {
+        lastNumber = this._operation[i];
+        console.log(lastNumber);
+        break;
+      }
+    }
+    this.displayCalc = lastNumber;
+  }
 
   // ===============================================
   //              Gets and Sets
