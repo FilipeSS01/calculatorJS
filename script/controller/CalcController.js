@@ -18,9 +18,9 @@ class CalcController {
     }, 1000);
   }
 
-  // =============================================== 
-  //                Date and Time 
-  // =============================================== 
+  // ===============================================
+  //                Date and Time
+  // ===============================================
 
   setDisplayDateTime() {
     this.displayDate = this.currentDate.toLocaleDateString(this._locale, {
@@ -31,9 +31,9 @@ class CalcController {
     this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
   }
 
-  // =============================================== 
+  // ===============================================
   //             Add events on Buttons
-  // =============================================== 
+  // ===============================================
 
   initButtonEvent() {
     let buttons = document.querySelectorAll("#buttons > g, #parts > g");
@@ -54,9 +54,9 @@ class CalcController {
     });
   }
 
-  // =============================================== 
+  // ===============================================
   //        Check Button && Others Events
-  // =============================================== 
+  // ===============================================
 
   execBtn(value) {
     switch (value) {
@@ -104,18 +104,6 @@ class CalcController {
     }
   }
 
-  clearAll() {
-    this._operation = [];
-  }
-
-  clearEntry() {
-    this._operation.pop();
-  }
-
-  setError() {
-    this.displayCalc = "Error";
-  }
-
   addOperation(value) {
     if (isNaN(this.getLastOperation())) {
       if (this.isOperator(value)) {
@@ -131,6 +119,7 @@ class CalcController {
       } else {
         let newValue = this.getLastOperation().toString() + value.toString();
         this.setLastOperation(parseInt(newValue));
+        this.setLastNumberToDisplay();
       }
     }
   }
@@ -151,14 +140,34 @@ class CalcController {
   getLastOperation() {
     return this._operation[this._operation.length - 1];
   }
-  
+
   setLastOperation(value) {
     this._operation[this._operation.length - 1] = value;
   }
 
-  // =============================================== 
+  calc() {
+    let last = this._operation.pop();
+    let result = eval(this._operation.join(" "));
+    this._operation = [result, last];
+  }
+
+  clearAll() {
+    this._operation = [];
+  }
+
+  clearEntry() {
+    this._operation.pop();
+  }
+
+  setError() {
+    this.displayCalc = "Error";
+  }
+
+  setLastNumberToDisplay() {}
+
+  // ===============================================
   //              Gets and Sets
-  // =============================================== 
+  // ===============================================
 
   get displayDate() {
     return this._dateEl.innerHTML;
