@@ -14,6 +14,7 @@ class CalcController {
     this.initialize();
     this.initButtonEvent();
     this.initKeyboard();
+    this.initAudio();
   }
 
   initialize() {
@@ -29,7 +30,7 @@ class CalcController {
   // ===============================================
 
   initAudio() {
-    document.querySelectorAll("btn-ac").forEach((btn) => {
+    document.querySelectorAll(".btn-ac").forEach((btn) => {
       btn.addEventListener("dblclick", (e) => {
         this.toggleAudio();
       });
@@ -41,7 +42,7 @@ class CalcController {
   }
 
   playAudio() {
-    if (this._audio) {
+    if (this._audioOnOff) {
       this._audio.currentTime = 0;
       this._audio.play();
     }
@@ -89,32 +90,39 @@ class CalcController {
 
   initKeyboard() {
     document.addEventListener("keyup", (e) => {
-      this.playAudio();
       switch (e.key) {
         case "Escape":
         case "Delete":
           this.clearAll();
+          this.playAudio();
           break;
         case "Backspace":
           this.clearEntry();
+          this.playAudio();
           break;
         case "+":
           this.addOperation("+");
+          this.playAudio();
           break;
         case "-":
           this.addOperation("-");
+          this.playAudio();
           break;
         case "/":
           this.addOperation("/");
+          this.playAudio();
           break;
         case "*":
           this.addOperation("*");
+          this.playAudio();
           break;
         case "%":
           this.addOperation("%");
+          this.playAudio();
           break;
         case ".":
           this.addDot(".");
+          this.playAudio();
           break;
         case "0":
         case "1":
@@ -127,10 +135,12 @@ class CalcController {
         case "8":
         case "9":
           this.addOperation(parseInt(e.key));
+          this.playAudio();
           break;
         case "=":
         case "Enter":
           this.calc();
+          this.playAudio();
           break;
       }
     });
@@ -351,6 +361,9 @@ class CalcController {
     return this._displayCalcEl.innerHTML;
   }
   set displayCalc(value) {
+    if (value.length > 10) {
+      return this.setError();
+    }
     this._displayCalcEl.innerHTML = value;
   }
 }
