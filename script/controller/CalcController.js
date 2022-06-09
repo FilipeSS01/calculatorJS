@@ -11,6 +11,7 @@ class CalcController {
 
     this.initialize();
     this.initButtonEvent();
+    this.initKeyboard();
   }
 
   initialize() {
@@ -57,6 +58,57 @@ class CalcController {
     });
   }
 
+  // ===============================================
+  //              KeyBoard Buttons
+  // ===============================================
+
+  initKeyboard() {
+    document.addEventListener("keyup", (e) => {
+      switch (e.key) {
+        case "Escape":
+        case "Delete":
+          this.clearAll();
+          break;
+        case "Backspace":
+          this.clearEntry();
+          break;
+        case "+":
+          this.addOperation("+");
+          break;
+        case "-":
+          this.addOperation("-");
+          break;
+        case "/":
+          this.addOperation("/");
+          break;
+        case "*":
+          this.addOperation("*");
+          break;
+        case "%":
+          this.addOperation("%");
+          break;
+        case ".":
+          this.addDot(".");
+          break;
+        case "0":
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+          this.addOperation(parseInt(e.key));
+          break;
+        case "=":
+        case "Enter":
+          this.calc();
+          break;
+      }
+    });
+  }
   // ===============================================
   //        Check Button && Others Events
   // ===============================================
@@ -223,7 +275,7 @@ class CalcController {
 
   setLastNumberToDisplay() {
     let lastNumber = this.getLastItem(false);
-    if ( !lastNumber || this._operation.length == 0) lastNumber = 0;
+    if (!lastNumber || this._operation.length == 0) lastNumber = 0;
     this.displayCalc = lastNumber;
   }
 
