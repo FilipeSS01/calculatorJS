@@ -222,7 +222,13 @@ class CalcController {
   }
 
   getResult() {
-    return eval(this._operation.join(" "));
+    try {
+      return eval(this._operation.join(" "));
+    } catch (error) {
+      setTimeout(() => {
+        this.setError();
+      }, 100);
+    }
   }
 
   addDot() {
@@ -294,6 +300,7 @@ class CalcController {
   }
 
   setError() {
+    this.clearAll();
     this.displayCalc = "Error";
   }
 
