@@ -361,7 +361,7 @@ class CalcController {
     return this._displayCalcEl.innerHTML;
   }
   set displayCalc(value) {
-    if (value.length > 10) {
+    if (value.toString().length > 10) {
       return this.setError();
     }
     this._displayCalcEl.innerHTML = value;
