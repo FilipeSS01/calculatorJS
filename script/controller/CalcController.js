@@ -85,7 +85,7 @@ class CalcController {
         this.addOperation("%");
         break;
       case "ponto":
-        this.addOperation(".");
+        this.addDot(".");
         break;
       case "0":
       case "1":
@@ -112,8 +112,6 @@ class CalcController {
     if (isNaN(this.getLastOperation())) {
       if (this.isOperator(value)) {
         this.setLastOperation(value);
-      } else if (isNaN(value)) {
-        console.log("outra coisa");
       } else {
         this.pushOperation(value);
         this.setLastNumberToDisplay();
@@ -123,7 +121,7 @@ class CalcController {
         this.pushOperation(value);
       } else {
         let newValue = this.getLastOperation().toString() + value.toString();
-        this.setLastOperation(parseInt(newValue));
+        this.setLastOperation(newValue);
         this.setLastNumberToDisplay();
       }
     }
@@ -135,6 +133,24 @@ class CalcController {
 
   getResult() {
     return eval(this._operation.join(" "));
+  }
+
+  addDot() {
+    let lastOperation = this.getLastOperation();
+
+    if (
+      typeof lastOperation === "string" &&
+      lastOperation.split("").indexOf(".") !== -1
+    )
+      return;
+
+    if (this.isOperator(lastOperation) || !lastOperation) {
+      this.setLastOperation("0.");
+    } else {
+      this.setLastOperation(lastOperation.toString() + ".");
+    }
+
+    this.setLastNumberToDisplay();
   }
 
   calc() {
@@ -199,7 +215,7 @@ class CalcController {
         break;
       }
     }
-    if (!lastItem) {
+    if (!lastItem && lastItem != 0) {
       lastItem = isOperator ? this._lastOperator : this._lastNumber;
     }
     return lastItem;
@@ -207,7 +223,7 @@ class CalcController {
 
   setLastNumberToDisplay() {
     let lastNumber = this.getLastItem(false);
-    if (this._operation.length == 0) lastNumber = 0;
+    if ( !lastNumber || this._operation.length == 0) lastNumber = 0;
     this.displayCalc = lastNumber;
   }
 
