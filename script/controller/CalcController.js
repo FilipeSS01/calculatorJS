@@ -253,7 +253,7 @@ class CalcController {
     if (
       this._operation.length > 0 ||
       this._lastNumber != "" ||
-      this._lastNumber != ""
+      this._lastOperator != ""
     ) {
       let last = "";
       this._lastOperator = this.getLastItem();
